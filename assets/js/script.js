@@ -41,6 +41,19 @@ function citySearch(cityname) {
         // Call new api to get UV index using latitude and longitude data 
         var latitude = response.coord.lat;
         var longitude = response.coord.lon;
+        var queryUvURL = `http://api.openweathermap.org/data/2.5/uvi?appid=${apiKey}&lat=${latitude}&lon=${longitude}`
+
+        $.ajax({
+            url: queryUvURL,
+            method: 'GET'
+        }).then(function (response) {
+            $("#uv").empty();
+            // var uvValue = response.value;
+            var uvEl = $("<span class='badge badge-pill badge-primary'>").text("UV Index: " + response.value);
+
+            $("#uv").html(uvEl)
+        })
+
     });
 }
 
