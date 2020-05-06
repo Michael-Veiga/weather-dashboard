@@ -41,6 +41,7 @@ function citySearch(cityname) {
         // Call new api to get UV index using latitude and longitude data 
         var latitude = response.coord.lat;
         var longitude = response.coord.lon;
+        // call new uvApi to get UV data
         var queryUvURL = `http://api.openweathermap.org/data/2.5/uvi?appid=${apiKey}&lat=${latitude}&lon=${longitude}`
 
         $.ajax({
@@ -48,9 +49,10 @@ function citySearch(cityname) {
             method: 'GET'
         }).then(function (uvResponse) {
             $("#uv").empty();
+            // store uv response and value
             var uvValue = uvResponse.value;
             var uvEl = $("<span class='badge badge-success'>").text("UV Index: " + uvValue);
-
+            // make uv badge change color based on the severity of the uv
             if (uvValue > 3 && uvValue < 7) {
                 $(uvEl).attr("style", "background-color: Orange");
             }
@@ -58,8 +60,34 @@ function citySearch(cityname) {
                 $(uvEl).attr("style", "background-color: Red");
             }
             $("#uv").html(uvEl)
-        })
+        });
     });
+
+    // Get a five day forecast by calling the 5 day forecast api
+    var queryForecastURL = `http://api.openweathermap.org/data/2.5/forecast?q=${cityname}&appid=${apiKey}&units=imperial`;
+
+    $.ajax({
+        url: queryForecastURL,
+        method: 'GET'
+    }).then(function (forecastResponse) {
+        console.log(forecastResponse);
+        // store array results
+        var forecastArr = forecastResponse.list;
+        // empty existing div
+        $("#5dayForecast").empty();
+
+        for (var i = 0; i < forecastArr.length; i += 8) {
+            // make div for five day forecast
+            var fiveDayForecast = $("<div class='card shadow-lg text-primary border-primary mx-auto mb-10 p-2' style='width: 8.5rem; height: 11rem;'>")
+            // create variable for forecast date, temp, humidity 
+            var forecastDate = forecastArr[i].dt_txt;
+            var forecastTemp = forecastArr[i].main.temp;
+            var forecastHumidity = forecastArr[i].main.humidity;
+            // create tags for each of the variables
+            // make the icons display on the cards
+            // append the recently created div with the new information and images
+        }
+    })
 }
 
 $("#city-select").on("click", function (event) {
