@@ -1,8 +1,12 @@
+// Add date to global scope
+var date = moment().format('L');
+
 // Get current weather from city input
 // Create function for apiKey and queryURL
 function citySearch(cityname) {
     var apiKey = "f05e8402bde57056482bf85c1466a99c";
     var queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityname}&appid=${apiKey}&units=imperial`;
+    var queryForecastURL = `http://api.openweathermap.org/data/2.5/forecast?q=${cityname}&appid=${apiKey}&units=imperial`;
 
     $.ajax({
         url: queryURL,
@@ -24,13 +28,13 @@ function citySearch(cityname) {
         if (weatherEl === "Clouds") {
             var weatherImg = $("<img>").attr("src", "https://img.icons8.com/color/48/000000/cloud.png");
         } else if (weatherEl === "Rain") {
-            var weatherImg = $("<img>").attr("src", "https://img.icons8.com/color/48/000000/intense-rain.png")
+            var weatherImg = $("<img>").attr("src", "https://img.icons8.com/color/48/000000/intense-rain.png");
         } else if (weatherEl === "Drizzle") {
-            var weatherImg = $("<img>").attr("src", "https://img.icons8.com/color/48/000000/light-rain.png")
+            var weatherImg = $("<img>").attr("src", "https://img.icons8.com/color/48/000000/light-rain.png");
         } else if (weatherEl === "Snow") {
-            var weatherImg = $("<img>").attr("src", "https://img.icons8.com/color/48/000000/snow.png")
+            var weatherImg = $("<img>").attr("src", "https://img.icons8.com/color/48/000000/snow.png");
         } else if (weatherEl === "Clear") {
-            var weatherImg = $("<img>").attr("src", "https://img.icons8.com/color/48/000000/summer.png")
+            var weatherImg = $("<img>").attr("src", "https://img.icons8.com/color/48/000000/summer.png");
         }
         // Create new html div that appends new elements to display on page
         var newDiv = $("<div>");
@@ -64,8 +68,6 @@ function citySearch(cityname) {
     });
 
     // Get a five day forecast by calling the 5 day forecast api
-    var queryForecastURL = `http://api.openweathermap.org/data/2.5/forecast?q=${cityname}&appid=${apiKey}&units=imperial`;
-
     $.ajax({
         url: queryForecastURL,
         method: 'GET'
@@ -75,19 +77,55 @@ function citySearch(cityname) {
         var forecastArr = forecastResponse.list;
         // empty existing div
         $("#5dayForecast").empty();
+        // empty existing title
+        $("#forecastTitle").empty();
+
+        var forecastTitle = $("<h2 class='header'>").text("Five Day Forecast");
+        $("#forecastTitle").append(forecastTitle);
 
         for (var i = 0; i < forecastArr.length; i += 8) {
             // make div for five day forecast
-            var fiveDayForecast = $("<div class='card shadow-lg text-primary border-primary mx-auto mb-10 p-2' style='width: 8.5rem; height: 11rem;'>")
+            var fiveDayForecast = $("<div class='card shadow-lg text-white bg-primary mx-auto mb-10 p-2' style='width: 8.5rem; height: 11rem;'>");
             // create variable for forecast date, temp, humidity 
             var forecastDate = forecastArr[i].dt_txt;
             var forecastTemp = forecastArr[i].main.temp;
             var forecastHumidity = forecastArr[i].main.humidity;
+            // create variable to set the date 
+            // Use substr() to extract part of the string from the forecast date beginning at the 0 index and return 10 characters
+            var forecastSetDate = forecastDate.substr(0, 10);
             // create tags for each of the variables
+            var headerDate = $("<h5 class='card-title'>").text(forecastSetDate);
+            var tempText = $("<p class='card-text'>").text("Temp: " + forecastTemp + "°F");
+            var humidityText = $("<p class='card-text'>").text("Humidity: " + forecastHumidity + "%");
+
+            // 
+            var forecastWeatherEl = forecastArr[i].weather[0].main;
             // make the icons display on the cards
+            if (forecastWeatherEl === "Clouds") {
+                var forecastImg = $("<img>").attr("src", "https://img.icons8.com/color/48/000000/cloud.png");
+                forecastImg.attr("style", "height: 48px; width: 48px");
+            } else if (forecastWeatherEl === "Rain") {
+                var forecastImg = $("<img>").attr("src", "https://img.icons8.com/color/48/000000/intense-rain.png");
+                forecastImg.attr("style", "height: 48px; width: 48px");
+            } else if (forecastWeatherEl === "Drizzle") {
+                var forecastImg = $("<img>").attr("src", "https://img.icons8.com/color/48/000000/light-rain.png");
+                forecastImg.attr("style", "height: 48px; width: 48px");
+            } else if (forecastWeatherEl === "Snow") {
+                var forecastImg = $("<img>").attr("src", "https://img.icons8.com/color/48/000000/snow.png");
+                forecastImg.attr("style", "height: 48px; width: 48px");
+            } else if (forecastWeatherEl === "Clear") {
+                var forecastImg = $("<img>").attr("src", "https://img.icons8.com/color/48/000000/summer.png");
+                forecastImg.attr("style", "height: 48px; width: 48px");
+            }
             // append the recently created div with the new information and images
+            fiveDayForecast.append(headerDate);
+            fiveDayForecast.append(forecastImg);
+            fiveDayForecast.append(tempText);
+            fiveDayForecast.append(humidityText);
+
+            $("#5dayForecast").append(fiveDayForecast);
         }
-    })
+    });
 }
 
 $("#city-select").on("click", function (event) {
