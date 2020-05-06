@@ -2,7 +2,7 @@
 // Create function for apiKey and queryURL
 function citySearch(cityname) {
     var apiKey = "f05e8402bde57056482bf85c1466a99c";
-    var queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityname}&appid=${apiKey}`;
+    var queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityname}&appid=${apiKey}&units=imperial`;
 
     $.ajax({
         url: queryURL,
@@ -16,9 +16,9 @@ function citySearch(cityname) {
         // create variables for html weather info to display
         var cityNameEl = $("<h3>").text(response.name);
         var dateEl = cityNameEl.append(" " + date);
-        var tempEl = $("<p>").text("Temperature: " + response.main.temp);
-        var humidityEl = $("<p>").text("Humidity: " + response.main.humidity)
-        var windEl = $("<p>").text("Wind speed: " + response.wind.speed)
+        var tempEl = $("<p>").text("Temperature: " + response.main.temp + "°F");
+        var humidityEl = $("<p>").text("Humidity: " + response.main.humidity + "%")
+        var windEl = $("<p>").text("Wind speed: " + response.wind.speed + "mph")
         var weatherEl = response.weather[0].main;
         // create if else statements tied to the weather array so that images can display 
         if (weatherEl === "Clouds") {
@@ -46,14 +46,19 @@ function citySearch(cityname) {
         $.ajax({
             url: queryUvURL,
             method: 'GET'
-        }).then(function (response) {
+        }).then(function (uvResponse) {
             $("#uv").empty();
-            // var uvValue = response.value;
-            var uvEl = $("<span class='badge badge-pill badge-primary'>").text("UV Index: " + response.value);
+            var uvValue = uvResponse.value;
+            var uvEl = $("<span class='badge badge-success'>").text("UV Index: " + uvValue);
 
+            if (uvValue > 3 && uvValue < 7) {
+                $(uvEl).attr("style", "background-color: Orange");
+            }
+            else if (uvValue > 7) {
+                $(uvEl).attr("style", "background-color: Red");
+            }
             $("#uv").html(uvEl)
         })
-
     });
 }
 
