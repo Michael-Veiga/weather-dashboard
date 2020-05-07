@@ -131,10 +131,41 @@ function citySearch(cityname) {
         }
     });
 }
+displayHistory();
 
 $("#city-select").on("click", function (event) {
     event.preventDefault();
 
     var cityInput = $("#city-search").val().trim();
     citySearch(cityInput);
-})
+    // create JSON storage for city search
+    // taking sibling of city-select and pass through the input
+    var lastSearch = $(this).siblings("input").val();
+    // create empty array for previous inputs
+    var inputArr = [];
+    // push lastSearch variable into empty array
+    inputArr.push(lastSearch);
+    // set to local storage and stringify
+    localStorage.setItem('city', JSON.stringify(inputArr));
+    displayHistory();
+});
+
+// get stored items to display by calling new function
+function displayHistory() {
+    // retrieve stored data using getItem
+    var cityTxt = JSON.parse(localStorage.getItem("city"));
+    var newDiv = $("<div>");
+    var lastSearchButton = $("<button class='btn border text-muted mt-1 shadow-sm bg-white rounded' style='width: 12rem;'>").text(cityTxt);
+
+    newDiv.append(lastSearchButton);
+    $("#search-history").prepend(newDiv);
+}
+
+// create event listener for accessing stored search histroy 
+$("#search-history").on("click", 'btn', function (event) {
+    event.preventDefault();
+
+    console.log($(this.text()));
+    citySearch($(this.text()));
+});
+
