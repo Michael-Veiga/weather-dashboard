@@ -60,8 +60,11 @@ function citySearch(cityname) {
             if (uvValue > 3 && uvValue < 7) {
                 $(uvEl).attr("style", "background-color: Orange");
             }
-            else if (uvValue > 7) {
+            else if (uvValue > 7 && uvValue < 10) {
                 $(uvEl).attr("style", "background-color: Red");
+            }
+            else if (uvValue > 10) {
+                $(uvEl).attr("style", "background-color: Purple");
             }
             $("#uv").html(uvEl)
         });
@@ -82,8 +85,9 @@ function citySearch(cityname) {
 
         var forecastTitle = $("<h2 class='header'>").text("Five Day Forecast");
         $("#forecastTitle").append(forecastTitle);
-
-        for (var i = 0; i < forecastArr.length; i += 8) {
+        // create a for loop that that loops through the list array and use an operator to increment by 8 in order to capture each day
+        // set the i variable to at least 3, so that the main card and the first forecast card arent the same date 
+        for (var i = 3; i < forecastArr.length; i += 8) {
             // make div for five day forecast
             var fiveDayForecast = $("<div class='card shadow-lg text-white bg-primary mx-auto mb-10 p-2' style='width: 8.5rem; height: 11rem;'>");
             // create variable for forecast date, temp, humidity 
