@@ -131,7 +131,7 @@ function citySearch(cityname) {
         }
     });
 }
-getHistory();
+pageLoad();
 
 $("#city-select").on("click", function (event) {
     event.preventDefault();
@@ -147,11 +147,11 @@ $("#city-select").on("click", function (event) {
     // set to local storage and stringify
     localStorage.setItem('city', JSON.stringify(inputArr));
     citySearch(cityInput);
-    getHistory();
+    pageLoad();
 });
 
 // get stored items to display by calling new function
-function getHistory() {
+function pageLoad() {
     // retrieve stored data using getItem
     var cityTxt = JSON.parse(localStorage.getItem("city"));
     var lastSearchButton = $("<button class='btn border text-muted mt-1 shadow-sm bg-white rounded' style='width: 12rem;'>").text(cityTxt);
