@@ -1,5 +1,5 @@
-// Add date to global scope
-var date = moment().format('L');
+// **Layout referenced from https://github.com/cmelby/WeatherDashboard/blob/master/script.js
+// ** Icons taken from https://icons8.com/icon/pack/weather/color
 
 // Get current weather from city input
 // Create function for apiKey and queryURL
@@ -131,13 +131,12 @@ function citySearch(cityname) {
         }
     });
 }
-displayHistory();
+getHistory();
 
 $("#city-select").on("click", function (event) {
     event.preventDefault();
 
     var cityInput = $("#city-search").val().trim();
-    citySearch(cityInput);
     // create JSON storage for city search
     // taking sibling of city-select and pass through the input
     var lastSearch = $(this).siblings("input").val();
@@ -147,25 +146,26 @@ $("#city-select").on("click", function (event) {
     inputArr.push(lastSearch);
     // set to local storage and stringify
     localStorage.setItem('city', JSON.stringify(inputArr));
-    displayHistory();
+    citySearch(cityInput);
+    getHistory();
 });
 
 // get stored items to display by calling new function
-function displayHistory() {
+function getHistory() {
     // retrieve stored data using getItem
     var cityTxt = JSON.parse(localStorage.getItem("city"));
-    var newDiv = $("<div>");
     var lastSearchButton = $("<button class='btn border text-muted mt-1 shadow-sm bg-white rounded' style='width: 12rem;'>").text(cityTxt);
-
-    newDiv.append(lastSearchButton);
-    $("#search-history").prepend(newDiv);
+    var historyDiv = $("<div>");
+    // append the new siv with the lastSearchButton
+    historyDiv.append(lastSearchButton);
+    $("#search-history").prepend(historyDiv);
 }
 
 // create event listener for accessing stored search histroy 
-$("#search-history").on("click", 'btn', function (event) {
+$("#search-history").on("click", '.btn', function (event) {
     event.preventDefault();
 
-    console.log($(this.text()));
-    citySearch($(this.text()));
+    console.log($(this).text());
+    citySearch($(this).text());
 });
 
