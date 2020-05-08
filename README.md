@@ -27,3 +27,6 @@ THEN I am presented with the last searched city forecast
 
 ## Review
 This assignment was challengeing, but alot of fun. One of the biggest challenges I ran into was figuring out how to loop over the forecast array for the 5 day forecast. I picked up that we needed to use a += operator fairly quickly, because there were 40 indexes in the array, which divided by 8 would equal 5 days. However, if I started at the 0 index then I would end up populating that days date on the first card, so I started at the 3rd index instead. Another challenging part was using the substr() method to get the exact number of characters for the date to display. It's really quite amazing how many different methods we have at our disposal. I also found the stock icon images to be really boring, so I imported my own colorful ones from icon 8. All in all, i've found jQuery to be alot easier than vanilla javascript and calling different apis usually isn't all that difficult. 
+
+## Image of Application
+![Image of weather-dashboard application](/assets/images/weather-dash-ex.JPG);
