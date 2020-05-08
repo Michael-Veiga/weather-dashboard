@@ -6,7 +6,7 @@
 function citySearch(cityname) {
     var apiKey = "f05e8402bde57056482bf85c1466a99c";
     var queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityname}&appid=${apiKey}&units=imperial`;
-    var queryForecastURL = `http://api.openweathermap.org/data/2.5/forecast?q=${cityname}&appid=${apiKey}&units=imperial`;
+    var queryForecastURL = `https://api.openweathermap.org/data/2.5/forecast?q=${cityname}&appid=${apiKey}&units=imperial`;
 
     $.ajax({
         url: queryURL,
@@ -46,7 +46,7 @@ function citySearch(cityname) {
         var latitude = response.coord.lat;
         var longitude = response.coord.lon;
         // call new uvApi to get UV data
-        var queryUvURL = `http://api.openweathermap.org/data/2.5/uvi?appid=${apiKey}&lat=${latitude}&lon=${longitude}`
+        var queryUvURL = `https://api.openweathermap.org/data/2.5/uvi?appid=${apiKey}&lat=${latitude}&lon=${longitude}`
 
         $.ajax({
             url: queryUvURL,
@@ -131,7 +131,7 @@ function citySearch(cityname) {
         }
     });
 }
-pageLoad();
+getHistory();
 
 $("#city-select").on("click", function (event) {
     event.preventDefault();
@@ -147,11 +147,11 @@ $("#city-select").on("click", function (event) {
     // set to local storage and stringify
     localStorage.setItem('city', JSON.stringify(inputArr));
     citySearch(cityInput);
-    pageLoad();
+    getHistory();
 });
 
 // get stored items to display by calling new function
-function pageLoad() {
+function getHistory() {
     // retrieve stored data using getItem
     var cityTxt = JSON.parse(localStorage.getItem("city"));
     var lastSearchButton = $("<button class='btn border text-muted mt-1 shadow-sm bg-white rounded' style='width: 12rem;'>").text(cityTxt);
