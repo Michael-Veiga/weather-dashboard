@@ -1,7 +1,7 @@
 # weather-dashboard
 
 ## Purpose
-The purpose of this assigment was to make a weather-dashboard that would give you the current weather, 
+The purpose of this application was to make a weather-dashboard that would give you the current weather, 
 uv index and 5 day forecast of a city. The application should also create clickable buttons that 
 populate with the search history.
 
