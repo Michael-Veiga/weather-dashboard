@@ -12,9 +12,7 @@
 - [Example Gif](#Example-Gif)
 
 ## Purpose
-The purpose of this application was to make a weather-dashboard that would give you the current weather, 
-uv index and 5 day forecast of a city. The application should also create clickable buttons that 
-populate with the search history.
+A weather-dashboard that enables users to look up the current weather by city. The api also fetches the uv index and a 5 day forecast for the region.
 
 ## User-Story 
 AS A traveler
