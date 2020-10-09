@@ -83,7 +83,7 @@ function citySearch(cityname) {
         // empty existing title
         $("#forecastTitle").empty();
 
-        var forecastTitle = $("<h2 class='header'>").text("Five Day Forecast");
+        var forecastTitle = $("<h2 class='header text-white'>").text("Five Day Forecast");
         $("#forecastTitle").append(forecastTitle);
         // create a for loop that that loops through the list array and use an operator to increment by 8 in order to capture each day
         // set the i variable to at least 3, so that the main card and the first forecast card arent the same date 
